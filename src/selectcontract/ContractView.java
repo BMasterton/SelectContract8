@@ -40,6 +40,10 @@ public class ContractView extends javax.swing.JFrame {
         jPrevButton = new javax.swing.JButton();
         jBidButton = new javax.swing.JButton();
         jNextButton = new javax.swing.JButton();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenu2 = new javax.swing.JMenu();
+        jMenuNewContract = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Bid on Contracts ");
@@ -165,6 +169,23 @@ public class ContractView extends javax.swing.JFrame {
                 .addGap(24, 24, 24))
         );
 
+        jMenu1.setText("File");
+        jMenuBar1.add(jMenu1);
+
+        jMenu2.setText("Edit");
+
+        jMenuNewContract.setText("New Contract");
+        jMenuNewContract.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuNewContractActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuNewContract);
+
+        jMenuBar1.add(jMenu2);
+
+        setJMenuBar(jMenuBar1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -182,7 +203,7 @@ public class ContractView extends javax.swing.JFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(94, Short.MAX_VALUE))
+                .addContainerGap(74, Short.MAX_VALUE))
         );
 
         pack();
@@ -256,6 +277,10 @@ public class ContractView extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jPrevButtonActionPerformed
 
+    private void jMenuNewContractActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuNewContractActionPerformed
+        // TODO add your handling code here: this is part 6 of lab 7
+    }//GEN-LAST:event_jMenuNewContractActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -274,6 +299,10 @@ public class ContractView extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelDestCity;
     private javax.swing.JLabel jLabelOrderItem;
     private javax.swing.JLabel jLabelOriginCity;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuNewContract;
     private javax.swing.JButton jNextButton;
     private javax.swing.JPanel jPanel;
     private javax.swing.JPanel jPanel1;
