@@ -4,6 +4,10 @@
  */
 package selectcontract;
 
+import java.io.FileWriter;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author C0501833
@@ -13,9 +17,13 @@ public class ContractForm extends javax.swing.JDialog {
     /**
      * Creates new form ContractForm
      */
-    public ContractForm(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
+    public ContractForm(JFrame f, boolean m) {
+        super(f,m);
         initComponents();
+        jNewContractID.setToolTipText("Contract ID's must be a single digit, followed by 3 letters, upper or lowercase.");
+        jNewDestinationCity.setToolTipText("Valid cities: Victoria, Vancouver, Seattle, Nanaimo, Prince George. Cannot be the same as Origin City");
+        jNewOriginCity.setToolTipText("Valid cities: Victoria, Vancouver, Seattle, Nanaimo, Prince George. Cannot be the same as Destination City");
+        jNewOrderItem.setToolTipText("Must be a text word or text, cannot be exclusively numbers, no commas.");
     }
 
     /**
@@ -37,9 +45,13 @@ public class ContractForm extends javax.swing.JDialog {
         jLabel4 = new javax.swing.JLabel();
         jNewOrderItem = new javax.swing.JTextField();
         jButtonSaveContract = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        jButtonCancelContract = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel5 = new javax.swing.JLabel();
+        jButtonResetContract = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("New Contract Creation Form");
 
         jPanel1.setBackground(new java.awt.Color(240, 200, 240));
 
@@ -62,49 +74,89 @@ public class ContractForm extends javax.swing.JDialog {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
-                        .addComponent(jNewContractID, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(25, 25, 25)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jNewOriginCity)
-                            .addComponent(jNewDestinationCity)
-                            .addComponent(jNewOrderItem, javax.swing.GroupLayout.DEFAULT_SIZE, 94, Short.MAX_VALUE))))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jNewOrderItem, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(21, 21, 21)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jNewOriginCity, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel1)
+                                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel3))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jNewDestinationCity, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jNewContractID, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(81, Short.MAX_VALUE)
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jNewContractID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jNewOriginCity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
+                .addGap(29, 29, 29)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(jNewOrderItem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(26, 26, 26)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(jNewDestinationCity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jNewOriginCity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jNewContractID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                .addGap(47, 47, 47))
         );
 
         jButtonSaveContract.setText("Save");
+        jButtonSaveContract.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSaveContractActionPerformed(evt);
+            }
+        });
 
-        jButton1.setText("Cancel");
+        jButtonCancelContract.setText("Cancel");
+        jButtonCancelContract.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCancelContractActionPerformed(evt);
+            }
+        });
+
+        jPanel2.setBackground(new java.awt.Color(140, 240, 140));
+
+        jLabel5.setText("Please Enter Contract information in the text fields down below");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel5)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel5)
+                .addContainerGap())
+        );
+
+        jButtonResetContract.setText("Reset");
+        jButtonResetContract.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonResetContractActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -115,21 +167,30 @@ public class ContractForm extends javax.swing.JDialog {
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
-                .addGap(107, 107, 107)
+                .addGap(30, 30, 30)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(28, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(74, 74, 74)
                 .addComponent(jButtonSaveContract)
-                .addGap(39, 39, 39)
-                .addComponent(jButton1)
-                .addContainerGap(128, Short.MAX_VALUE))
+                .addGap(42, 42, 42)
+                .addComponent(jButtonResetContract)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButtonCancelContract)
+                .addGap(69, 69, 69))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(63, 63, 63)
+                .addGap(16, 16, 16)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonSaveContract)
-                    .addComponent(jButton1))
+                    .addComponent(jButtonCancelContract)
+                    .addComponent(jButtonResetContract))
                 .addContainerGap())
         );
 
@@ -139,6 +200,48 @@ public class ContractForm extends javax.swing.JDialog {
     private void jNewOriginCityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jNewOriginCityActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jNewOriginCityActionPerformed
+
+    private void jButtonCancelContractActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelContractActionPerformed
+        dispose();
+    }//GEN-LAST:event_jButtonCancelContractActionPerformed
+
+    private void jButtonSaveContractActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSaveContractActionPerformed
+        String contractID;
+        contractID = jNewContractID.getText();
+        
+        String DestinationID;
+        DestinationID = jNewDestinationCity.getText();
+        String OrderItemID;
+        OrderItemID = jNewOrderItem.getText();
+        String OriginCityID;
+        OriginCityID = jNewOriginCity.getText();
+        
+        String filePath = "./contracts.txt";
+          try{
+              if(!contractID.equals("") && contractID.matches("[a-zA-Z]+")){
+               FileWriter fw = new FileWriter(filePath, true);
+                fw.write( "\n" + contractID + "," );
+                fw.flush();
+                fw.close();
+                JOptionPane.showMessageDialog(null, "Your name as " + contractID );
+              }
+              else {
+                  JOptionPane.showMessageDialog(null, "Please enter a proper name");
+              }
+          }catch (Exception ex) {
+               System.out.println("Error");
+              
+          }
+         
+       
+    }//GEN-LAST:event_jButtonSaveContractActionPerformed
+
+    private void jButtonResetContractActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonResetContractActionPerformed
+       jNewContractID.setText("");
+       jNewDestinationCity.setText("");
+       jNewOrderItem.setText("");
+       jNewOriginCity.setText("");
+    }//GEN-LAST:event_jButtonResetContractActionPerformed
 
     /**
      * @param args the command line arguments
@@ -183,16 +286,19 @@ public class ContractForm extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButtonCancelContract;
+    private javax.swing.JButton jButtonResetContract;
     private javax.swing.JButton jButtonSaveContract;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JTextField jNewContractID;
     private javax.swing.JTextField jNewDestinationCity;
     private javax.swing.JTextField jNewOrderItem;
     private javax.swing.JTextField jNewOriginCity;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     // End of variables declaration//GEN-END:variables
 }

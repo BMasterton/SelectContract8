@@ -30,6 +30,8 @@ class ContractController {
        this.theView.addNextListener(new NextButtonListener());
        this.theView.addcomboBoxListener(new ComboListener());
        this.theView.setOriginCityList(this.theModel.getOriginCityList());
+       this.theView.addContractListener(new NewContractListener());
+       this.theView.addExitMenuListener(new addExitMenuListener());
        setUpDisplay();
    }
    
@@ -115,6 +117,36 @@ class ContractController {
                setUpDisplay();
            }
        }
+   }
+   
+   class NewContractListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e){
+            try{
+                ContractForm nc;
+                nc = new ContractForm(theView, true);
+                nc.setLocationRelativeTo(null);
+                nc.setVisible(true);
+                
+
+            }catch (Exception ex){
+                   System.out.println(ex);
+
+            }
+        }
+   }
+   
+   class addExitMenuListener implements ActionListener {
+       @Override
+       public void actionPerformed(ActionEvent e){
+           try{
+               System.exit(0);
+           }catch (Exception ex){
+               System.out.println(ex); 
+           }
+           
+       }
+       
    }
    
    class BidButtonListener implements ActionListener {

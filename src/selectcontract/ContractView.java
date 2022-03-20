@@ -42,6 +42,7 @@ public class ContractView extends javax.swing.JFrame {
         jNextButton = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
+        jMenuItemExitButton = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuNewContract = new javax.swing.JMenuItem();
 
@@ -170,6 +171,15 @@ public class ContractView extends javax.swing.JFrame {
         );
 
         jMenu1.setText("File");
+
+        jMenuItemExitButton.setText("Quit");
+        jMenuItemExitButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemExitButtonActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItemExitButton);
+
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Edit");
@@ -219,6 +229,14 @@ public class ContractView extends javax.swing.JFrame {
     
     void addBidListener(ActionListener listenForBidButton){
         jBidButton.addActionListener(listenForBidButton);
+    }
+    //added listener for when you click the newContract part in the menu options for lab 7
+    void addContractListener(ActionListener listenForContractButton){
+        jMenuNewContract.addActionListener(listenForContractButton);
+    }
+    
+    void addExitMenuListener(ActionListener listForExitButton){
+        jMenuItemExitButton.addActionListener(listForExitButton);
     }
     
     void displayErrorMessage(String errorMessage){
@@ -281,6 +299,10 @@ public class ContractView extends javax.swing.JFrame {
         // TODO add your handling code here: this is part 6 of lab 7
     }//GEN-LAST:event_jMenuNewContractActionPerformed
 
+    private void jMenuItemExitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemExitButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItemExitButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -302,6 +324,7 @@ public class ContractView extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItemExitButton;
     private javax.swing.JMenuItem jMenuNewContract;
     private javax.swing.JButton jNextButton;
     private javax.swing.JPanel jPanel;
