@@ -124,7 +124,7 @@ class ContractController {
         public void actionPerformed(ActionEvent e){
             try{
                 ContractForm nc;
-                nc = new ContractForm(theView, true);
+                nc = new ContractForm(theView, true/*, theModel.getTheContract()*/);
                 nc.setLocationRelativeTo(null);
                 nc.setVisible(true);
                 

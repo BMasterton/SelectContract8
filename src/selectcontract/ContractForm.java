@@ -5,6 +5,7 @@
 package selectcontract;
 
 import java.io.FileWriter;
+import java.io.IOException;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -17,7 +18,7 @@ public class ContractForm extends javax.swing.JDialog {
     /**
      * Creates new form ContractForm
      */
-    public ContractForm(JFrame f, boolean m) {
+    public ContractForm(JFrame f, boolean m /*,Contract theContract*/) {
         super(f,m);
         initComponents();
         jNewContractID.setToolTipText("Contract ID's must be a single digit, followed by 3 letters, upper or lowercase.");
@@ -74,25 +75,26 @@ public class ContractForm extends javax.swing.JDialog {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(21, 21, 21)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jNewOrderItem, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(21, 21, 21)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jNewOriginCity, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel1)
-                                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel3))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jNewDestinationCity, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jNewContractID, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel1))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 120, Short.MAX_VALUE)
+                        .addComponent(jNewContractID, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jNewOriginCity, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jNewDestinationCity, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(99, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -105,15 +107,15 @@ public class ContractForm extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jNewOriginCity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
-                .addGap(29, 29, 29)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(jNewOrderItem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(26, 26, 26)
+                .addGap(34, 34, 34)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(jNewDestinationCity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(47, 47, 47))
+                .addGap(25, 25, 25)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jNewOrderItem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4))
+                .addGap(40, 40, 40))
         );
 
         jButtonSaveContract.setText("Save");
@@ -209,27 +211,59 @@ public class ContractForm extends javax.swing.JDialog {
         String contractID;
         contractID = jNewContractID.getText();
         
-        String DestinationID;
-        DestinationID = jNewDestinationCity.getText();
-        String OrderItemID;
-        OrderItemID = jNewOrderItem.getText();
         String OriginCityID;
         OriginCityID = jNewOriginCity.getText();
         
+        String DestinationID;
+        DestinationID = jNewDestinationCity.getText();
+        
+        String OrderItemID;
+        OrderItemID = jNewOrderItem.getText();
+     
+        
         String filePath = "./contracts.txt";
           try{
-              if(!contractID.equals("") && contractID.matches("[a-zA-Z]+")){
-               FileWriter fw = new FileWriter(filePath, true);
-                fw.write( "\n" + contractID + "," );
+              if(!((contractID.length() <5 && contractID.matches("[0-9][a-zA-Z]+")) && !contractID.equals(""))){
+                  JOptionPane.showMessageDialog(null, "Please enter a proper name");
+                  throw new IOException("bad contract ID "); 
+            }
+             
+              
+              if(!(((OriginCityID.matches("Victoria") || OriginCityID.matches("Vancouver") || OriginCityID.matches("Seattle") || OriginCityID.matches("Nanimo") || OriginCityID.matches("Prince George"))
+                  && !OriginCityID.equals(DestinationID)) && !OriginCityID.equals(""))){
+                  JOptionPane.showMessageDialog(null, "Please enter a proper OriginCity");
+                  throw new IOException("bad Origin City ");
+              }
+              
+              
+              if(!(((DestinationID.matches("Victoria") || DestinationID.matches("Vancouver") || DestinationID.matches("Seattle") || DestinationID.matches("Nanimo") || DestinationID.matches("Prince George"))
+                  && !DestinationID.equals(OriginCityID)) && !DestinationID.equals(""))){
+                  JOptionPane.showMessageDialog(null, "Please enter a proper DestinationCity");
+                  throw new IOException("bad Destination City ");                  
+              }
+             
+              
+              if(OrderItemID.contains(",") || OrderItemID.matches("^[0-9]+$") || OrderItemID.equals("")){
+                   JOptionPane.showMessageDialog(null, "Please enter correct Order ID");
+                  throw new IOException("incorrect ");
+              }
+              
+              FileWriter fw = new FileWriter(filePath, true);
+                fw.write("\n" + contractID.toUpperCase() + "," + OrderItemID + "," + DestinationID + "," + OrderItemID);
                 fw.flush();
                 fw.close();
-                JOptionPane.showMessageDialog(null, "Your name as " + contractID );
-              }
-              else {
-                  JOptionPane.showMessageDialog(null, "Please enter a proper name");
-              }
+              
+              jNewContractID.setText("");  // these may need to move, but i need the file to clean on a success 
+              jNewDestinationCity.setText("");
+              jNewOrderItem.setText("");
+              jNewOriginCity.setText("");
+              
+           // theContract.nextContract();figure out whats needed here, gotta make sure the array gets updated with this data with like the add contract method, then gotta call setUpDisplay
+              
+              
           }catch (Exception ex) {
-               System.out.println("Error");
+              
+               System.out.println(ex);
               
           }
          
