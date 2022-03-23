@@ -242,6 +242,10 @@ public class ContractView extends javax.swing.JFrame {
     void displayErrorMessage(String errorMessage){
         JOptionPane.showMessageDialog(this, errorMessage);
     }
+   
+    void addNewContractListener(ActionListener listenForNewContract){
+        jMenuNewContract.addActionListener(listenForNewContract);
+    }
     
     void addcomboBoxListener(ItemListener listenForComboBox){
         jComboOriginCity.addItemListener(listenForComboBox);

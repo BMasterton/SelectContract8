@@ -8,7 +8,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import javax.swing.AbstractButton;
+import javax.swing.JOptionPane;
 
 
 
@@ -20,6 +25,7 @@ class ContractController {
     
    private ContractView theView;
    private ContractModel theModel;
+   private ContractForm theForm;
    public static final int BEGIN_OF_ARRAYLIST = 0;
    
    ContractController(ContractView theView, ContractModel theModel){
@@ -31,7 +37,7 @@ class ContractController {
        this.theView.addcomboBoxListener(new ComboListener());
        this.theView.setOriginCityList(this.theModel.getOriginCityList());
        this.theView.addContractListener(new NewContractListener());
-       this.theView.addExitMenuListener(new addExitMenuListener());
+       this.theView.addExitMenuListener(new AddExitMenuListener());
        setUpDisplay();
    }
    
@@ -60,6 +66,18 @@ class ContractController {
        
        
    }
+   
+   
+   public boolean isContractThere(){
+       
+      return true;
+    
+         
+          
+        
+    
+            
+    }
    
    class PrevButtonListener implements ActionListener {
       
@@ -123,10 +141,11 @@ class ContractController {
         @Override
         public void actionPerformed(ActionEvent e){
             try{
-                ContractForm nc;
-                nc = new ContractForm(theView, true/*, theModel.getTheContract()*/);
-                nc.setLocationRelativeTo(null);
-                nc.setVisible(true);
+                
+                theForm = new ContractForm(theView, true);
+                theForm.setLocationRelativeTo(null);
+                theForm.addSaveButtonListener(new SaveContractlistener());
+                theForm.setVisible(true);
                 
 
             }catch (Exception ex){
@@ -136,7 +155,82 @@ class ContractController {
         }
    }
    
-   class addExitMenuListener implements ActionListener {
+   class SaveContractlistener implements ActionListener{
+       @Override
+       public void actionPerformed(ActionEvent e){
+        String contractID;
+        contractID = theForm.getContractId();
+        
+        String OriginCityID;
+        OriginCityID = theForm.getOriginId();
+        
+        String DestinationID;
+        DestinationID = theForm.getDestinationId();
+        
+        String OrderItemID;
+        OrderItemID = theForm.getOrderId();
+     
+        
+        
+          try{
+              //this is validation for the contract input
+              if(!((contractID.length() <5 && contractID.matches("[0-9][a-zA-Z]+")) && !contractID.equals(""))){
+                  JOptionPane.showMessageDialog(null, "Please enter a proper name");
+                  throw new IOException("bad contract ID "); 
+            }
+             
+              //this is validation for the OriginCity
+              if(!(((OriginCityID.matches("Victoria") || OriginCityID.matches("Vancouver") || OriginCityID.matches("Seattle") || OriginCityID.matches("Nanimo") || OriginCityID.matches("Prince George"))
+                  && !OriginCityID.equals(DestinationID)) && !OriginCityID.equals(""))){
+                  JOptionPane.showMessageDialog(null, "Please enter a proper OriginCity");
+                  throw new IOException("bad Origin / Destination City ");
+              }
+              
+              //this is validation for the Destination city
+              if(!(((DestinationID.matches("Victoria") || DestinationID.matches("Vancouver") || DestinationID.matches("Seattle") || DestinationID.matches("Nanimo") || DestinationID.matches("Prince George"))
+                  && !DestinationID.equals(OriginCityID)) && !DestinationID.equals(""))){
+                  JOptionPane.showMessageDialog(null, "Please enter a proper DestinationCity");
+                  throw new IOException("bad Destination / Origin City ");                  
+              }
+             
+              //this is validation for the orderitem
+              if(OrderItemID.contains(",") || OrderItemID.matches("^[0-9]+$") || OrderItemID.equals("")){
+                   JOptionPane.showMessageDialog(null, "Please enter correct Order ID");
+                  throw new IOException("bad order id ");
+              }
+              //this should check, that if the contract is there we throw an error, and if not we write to the file
+              if(isContractThere() == true){
+                throw new IOException("contract already exists ");
+              }
+              //if the isContractThere() comes back false then we write to the file 
+              else{
+                  String filePath = "./contracts.txt";
+                  FileWriter fw = new FileWriter(filePath, true);
+                      fw.write("\n" + contractID.toUpperCase() + "," + OriginCityID + "," + DestinationID + "," + OrderItemID);
+                      fw.flush();
+                      fw.close();
+                      String emptyString = "";
+                      theForm.setContractID(emptyString);  // these may need to move, but i need the file to clean on a success 
+                      theForm.setOriginID(emptyString);
+                      theForm.setDestinationID(emptyString);
+                      theForm.setOrderID(emptyString);                 
+              }   
+          }catch (Exception ex) {            
+               System.out.println(ex);      
+          }
+       }
+   }
+   
+   
+   class newContractistener implements ActionListener {
+       @Override
+       public void actionPerformed(ActionEvent e){
+           
+       
+       }
+   }
+   
+   class AddExitMenuListener implements ActionListener {
        @Override
        public void actionPerformed(ActionEvent e){
            try{

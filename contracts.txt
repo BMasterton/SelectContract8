@@ -3,6 +3,4 @@
 3HQC,Seattle,Vancouver,Pharmaceutical
 5JKE,Toronto,Phillips,Toiletries
 7JEW,Oregan,Washington,Leaves
-9TOM,Towels,Vancouver,Towels
-2TIM,bathMaths,Victoria,bathMaths
-6BOB,toddy,Vancouver,toddy
+9TOM,Victoria,Vancouver,lsdf

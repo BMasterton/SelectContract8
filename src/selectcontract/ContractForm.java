@@ -3,8 +3,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
  */
 package selectcontract;
-
+import java.awt.event.ActionListener;
+import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.BufferedReader;
 import java.io.IOException;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -14,11 +16,11 @@ import javax.swing.JOptionPane;
  * @author C0501833
  */
 public class ContractForm extends javax.swing.JDialog {
-
+public final String filePath = "./contracts.txt";
     /**
      * Creates new form ContractForm
      */
-    public ContractForm(JFrame f, boolean m /*,Contract theContract*/) {
+    public ContractForm(JFrame f, boolean m) {
         super(f,m);
         initComponents();
         jNewContractID.setToolTipText("Contract ID's must be a single digit, followed by 3 letters, upper or lowercase.");
@@ -119,11 +121,6 @@ public class ContractForm extends javax.swing.JDialog {
         );
 
         jButtonSaveContract.setText("Save");
-        jButtonSaveContract.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonSaveContractActionPerformed(evt);
-            }
-        });
 
         jButtonCancelContract.setText("Cancel");
         jButtonCancelContract.addActionListener(new java.awt.event.ActionListener() {
@@ -206,70 +203,45 @@ public class ContractForm extends javax.swing.JDialog {
     private void jButtonCancelContractActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelContractActionPerformed
         dispose();
     }//GEN-LAST:event_jButtonCancelContractActionPerformed
-
-    private void jButtonSaveContractActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSaveContractActionPerformed
-        String contractID;
-        contractID = jNewContractID.getText();
-        
-        String OriginCityID;
-        OriginCityID = jNewOriginCity.getText();
-        
-        String DestinationID;
-        DestinationID = jNewDestinationCity.getText();
-        
-        String OrderItemID;
-        OrderItemID = jNewOrderItem.getText();
-     
-        
-        String filePath = "./contracts.txt";
-          try{
-              if(!((contractID.length() <5 && contractID.matches("[0-9][a-zA-Z]+")) && !contractID.equals(""))){
-                  JOptionPane.showMessageDialog(null, "Please enter a proper name");
-                  throw new IOException("bad contract ID "); 
-            }
-             
-              
-              if(!(((OriginCityID.matches("Victoria") || OriginCityID.matches("Vancouver") || OriginCityID.matches("Seattle") || OriginCityID.matches("Nanimo") || OriginCityID.matches("Prince George"))
-                  && !OriginCityID.equals(DestinationID)) && !OriginCityID.equals(""))){
-                  JOptionPane.showMessageDialog(null, "Please enter a proper OriginCity");
-                  throw new IOException("bad Origin City ");
-              }
-              
-              
-              if(!(((DestinationID.matches("Victoria") || DestinationID.matches("Vancouver") || DestinationID.matches("Seattle") || DestinationID.matches("Nanimo") || DestinationID.matches("Prince George"))
-                  && !DestinationID.equals(OriginCityID)) && !DestinationID.equals(""))){
-                  JOptionPane.showMessageDialog(null, "Please enter a proper DestinationCity");
-                  throw new IOException("bad Destination City ");                  
-              }
-             
-              
-              if(OrderItemID.contains(",") || OrderItemID.matches("^[0-9]+$") || OrderItemID.equals("")){
-                   JOptionPane.showMessageDialog(null, "Please enter correct Order ID");
-                  throw new IOException("incorrect ");
-              }
-              
-              FileWriter fw = new FileWriter(filePath, true);
-                fw.write("\n" + contractID.toUpperCase() + "," + OrderItemID + "," + DestinationID + "," + OrderItemID);
-                fw.flush();
-                fw.close();
-              
-              jNewContractID.setText("");  // these may need to move, but i need the file to clean on a success 
-              jNewDestinationCity.setText("");
-              jNewOrderItem.setText("");
-              jNewOriginCity.setText("");
-              
-           // theContract.nextContract();figure out whats needed here, gotta make sure the array gets updated with this data with like the add contract method, then gotta call setUpDisplay
-              
-              
-          }catch (Exception ex) {
-              
-               System.out.println(ex);
-              
-          }
-         
-       
-    }//GEN-LAST:event_jButtonSaveContractActionPerformed
-
+    //this method is to check if the contract is a duplicate, if you return false, the, 
+    public void addSaveButtonListener(ActionListener saveButtonListener){
+        jButtonSaveContract.addActionListener(saveButtonListener);
+    }
+   
+    public String getContractId(){
+        return jNewContractID.getText();
+    }
+    
+    public String getOriginId(){
+        return jNewOriginCity.getText();
+    }
+    
+    public String getDestinationId(){
+        return jNewDestinationCity.getText();
+    }
+    
+    public String getOrderId(){
+        return jNewOrderItem.getText();
+    }
+    
+    public void setContractID(String newContractID){
+        jNewContractID.setText(newContractID);
+    } 
+    
+    public void setOriginID(String newOriginID){
+        jNewOriginCity.setText(newOriginID);
+    }
+    
+    public void setDestinationID(String newDestinationID){
+        jNewDestinationCity.setText(newDestinationID);
+    }
+    
+    public void setOrderID(String newOrderID){
+        jNewOrderItem.setText(newOrderID);
+    }
+    
+    
+    
     private void jButtonResetContractActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonResetContractActionPerformed
        jNewContractID.setText("");
        jNewDestinationCity.setText("");
