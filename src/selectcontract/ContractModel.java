@@ -61,6 +61,7 @@ class ContractModel {
         }         
     }
     
+   
     
     boolean foundContracts(){
         
@@ -88,9 +89,6 @@ class ContractModel {
     }
     
     public void nextContract(){
-       // if(getCurrentContractNum() == getContractCount()){
-       //     
-       // }
         if(getCurrentContractNum() <= getContractCount()){
             contractCounter +=1;
         }

@@ -199,26 +199,33 @@ class ContractController {
                   throw new IOException("bad order id ");
               }
               //this should check, that if the contract is there we throw an error, and if not we write to the file
-              if(isContractThere() == true){
-                throw new IOException("contract already exists ");
-              }
-              //if the isContractThere() comes back false then we write to the file 
-              else{
-                  String filePath = "./contracts.txt";
-                  FileWriter fw = new FileWriter(filePath, true);
+              
+              for(int i = 0; i < theModel.getContractCount(); i++){
+                  
+                 if(contractID.equals(theModel.getTheContract())){//how tf do i access the contractID portion of this 
+                     throw new IOException("contract ID matches previously input Contract ID, try again ");
+                  }
+               }
+                     String filePath = "./contracts.txt";
+                     FileWriter fw = new FileWriter(filePath, true);
                       fw.write("\n" + contractID.toUpperCase() + "," + OriginCityID + "," + DestinationID + "," + OrderItemID);
                       fw.flush();
                       fw.close();
                       String emptyString = "";
-                      theForm.setContractID(emptyString);  // these may need to move, but i need the file to clean on a success 
+                      theForm.setContractID(emptyString); 
                       theForm.setOriginID(emptyString);
                       theForm.setDestinationID(emptyString);
-                      theForm.setOrderID(emptyString);                 
-              }   
+                      theForm.setOrderID(emptyString);
+                      theView.updateContractViewPanel(theModel.getCurrentContractNum(), theModel.getContractCount());//why doesn't this update the counter 
+                      setUpDisplay();
+                              
+                  
           }catch (Exception ex) {            
                System.out.println(ex);      
           }
+          
        }
+       
    }
    
    
