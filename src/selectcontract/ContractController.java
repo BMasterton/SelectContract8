@@ -14,6 +14,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import javax.swing.AbstractButton;
 import javax.swing.JOptionPane;
+import java.util.ArrayList;
 
 
 
@@ -169,6 +170,8 @@ class ContractController {
         
         String OrderItemID;
         OrderItemID = theForm.getOrderId();
+        String[] contractString = theModel.stringOfContractIDs();
+        
      
         
         
@@ -198,11 +201,12 @@ class ContractController {
                    JOptionPane.showMessageDialog(null, "Please enter correct Order ID");
                   throw new IOException("bad order id ");
               }
-              //this should check, that if the contract is there we throw an error, and if not we write to the file
-              
+             
+              //iterates through the total size of all contracts in the file
+            
               for(int i = 0; i < theModel.getContractCount(); i++){
-                  
-                 if(contractID.equals(theModel.getTheContract())){//how tf do i access the contractID portion of this 
+                 // 
+                 if(contractID.equals(contractString[i])){//this takes the most recent contarct, and compares it to a string array that holds all the contracts in it.
                      throw new IOException("contract ID matches previously input Contract ID, try again ");
                   }
                }
@@ -211,20 +215,21 @@ class ContractController {
                       fw.write("\n" + contractID.toUpperCase() + "," + OriginCityID + "," + DestinationID + "," + OrderItemID);
                       fw.flush();
                       fw.close();
+                     contractString[theModel.getContractCount()+1]= contractID; // adding the new contract name to the end of the array for checking 
                       String emptyString = "";
                       theForm.setContractID(emptyString); 
                       theForm.setOriginID(emptyString);
                       theForm.setDestinationID(emptyString);
                       theForm.setOrderID(emptyString);
-                      theView.updateContractViewPanel(theModel.getCurrentContractNum(), theModel.getContractCount());//why doesn't this update the counter 
-                      setUpDisplay();
+                      
                               
                   
           }catch (Exception ex) {            
                System.out.println(ex);      
-          }
-          
-       }
+          } 
+          theView.updateContractViewPanel(theModel.getCurrentContractNum(), theModel.getContractCount());//why doesn't this update the counter 
+                      setUpDisplay();
+       } 
        
    }
    
@@ -232,8 +237,6 @@ class ContractController {
    class newContractistener implements ActionListener {
        @Override
        public void actionPerformed(ActionEvent e){
-           
-       
        }
    }
    
@@ -244,10 +247,8 @@ class ContractController {
                System.exit(0);
            }catch (Exception ex){
                System.out.println(ex); 
-           }
-           
-       }
-       
+           } 
+       } 
    }
    
    class BidButtonListener implements ActionListener {

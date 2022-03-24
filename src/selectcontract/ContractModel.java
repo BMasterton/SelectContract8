@@ -16,6 +16,7 @@ class ContractModel {
     private ArrayList<Contract> theContracts;
     private ArrayList<Contract> theContractsAll;
     private SortedSet<String> originCityList;
+    private String[] contractIDsString;
     private int contractCounter;
     String filename;
     public static final int BEGIN_OF_ARRAYLIST = 0;
@@ -32,6 +33,7 @@ class ContractModel {
             this.contractCounter = 0;
             theContracts = new ArrayList<>();
             originCityList = new TreeSet<>();
+            contractIDsString = new String[20];
             this.filename = filename;
             FileReader fileReader = new FileReader(filename);
             BufferedReader bufferedReader = new BufferedReader(fileReader);
@@ -45,6 +47,7 @@ class ContractModel {
                     String destCity = tokens[INDEX_OF_DEST_CITY];
                     String orderItem = tokens[INDEX_OF_ORDER_CITY];
                     originCityList.add(originCity); //part 8 add all the origincity names to the originCityList TreeList
+                    contractIDsString[this.contractCounter] = contractID;
                      
                     Contract dataContract = new Contract(contractID, originCity, destCity, orderItem);
                     theContracts.add(dataContract);
@@ -71,6 +74,10 @@ class ContractModel {
         else {
             return false;
         }
+    }
+    
+    public String[] stringOfContractIDs(){
+        return this.contractIDsString;
     }
     
     public Contract getTheContract(){
