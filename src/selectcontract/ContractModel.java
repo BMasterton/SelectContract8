@@ -33,7 +33,7 @@ class ContractModel {
             this.contractCounter = 0;
             theContracts = new ArrayList<>();
             originCityList = new TreeSet<>();
-            contractIDsString = new String[20];
+            
             this.filename = filename;
             FileReader fileReader = new FileReader(filename);
             BufferedReader bufferedReader = new BufferedReader(fileReader);
@@ -50,11 +50,7 @@ class ContractModel {
               
                      
                     Contract dataContract = new Contract(contractID, originCity, destCity, orderItem);
-                    theContracts.add(dataContract);
-                    
-                    //System.out.println(foundContracts()); this is to see if the contracts were being found in the file 
-                   // System.out.println(dataContract.getContractID()); this is to see what the contractID being found is 
-                   // System.out.println(dataContract.getOriginCity()); this is to see what the origincity being found is all per loop 
+                    theContracts.add(dataContract);  
                 }
                 theContractsAll = new ArrayList<>(theContracts);
                 originCityList.add("All"); // adding "all" to the end of the originCityList TreeList
@@ -65,8 +61,8 @@ class ContractModel {
     }
     
    public boolean findContractById(String id){
-       for(int i = 0; i< theContractsAll.size(); i++){// maybe change to theContracts 
-           if(theContractsAll.get(i).getContractID().equals(id)){
+       for(int i = 0; i< theContracts.size(); i++){// maybe change to theContracts 
+           if(theContracts.get(i).getContractID().equals(id)){
            return true;
             }
           
