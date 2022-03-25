@@ -47,7 +47,7 @@ class ContractModel {
                     String destCity = tokens[INDEX_OF_DEST_CITY];
                     String orderItem = tokens[INDEX_OF_ORDER_CITY];
                     originCityList.add(originCity); //part 8 add all the origincity names to the originCityList TreeList
-                    contractIDsString[this.contractCounter] = contractID;
+              
                      
                     Contract dataContract = new Contract(contractID, originCity, destCity, orderItem);
                     theContracts.add(dataContract);
@@ -64,7 +64,19 @@ class ContractModel {
         }         
     }
     
+   public boolean findContractById(String id){
+       for(int i = 0; i< theContractsAll.size(); i++){// maybe change to theContracts 
+           if(theContractsAll.get(i).getContractID().equals(id)){
+           return true;
+            }
+          
+       }
+       return false; 
+   }
    
+   public void addContract (Contract newContract){
+       theContracts.add(newContract);
+   }
     
     boolean foundContracts(){
         

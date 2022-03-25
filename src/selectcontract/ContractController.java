@@ -177,7 +177,7 @@ class ContractController {
         
           try{
               //this is validation for the contract input
-              if(!((contractID.length() <5 && contractID.matches("[0-9][a-zA-Z]+")) && !contractID.equals(""))){
+              if(!((contractID.length() < 5 && contractID.matches("^[0-9][a-zA-Z]+$")) && !contractID.equals(""))){
                   JOptionPane.showMessageDialog(null, "Please enter a proper name");
                   throw new IOException("bad contract ID "); 
             }
@@ -201,36 +201,35 @@ class ContractController {
                    JOptionPane.showMessageDialog(null, "Please enter correct Order ID");
                   throw new IOException("bad order id ");
               }
-             
-              //iterates through the total size of all contracts in the file
-            
-              for(int i = 0; i < theModel.getContractCount(); i++){
-                 // 
-                 if(contractID.equals(contractString[i])){//this takes the most recent contarct, and compares it to a string array that holds all the contracts in it.
-                     throw new IOException("contract ID matches previously input Contract ID, try again ");
-                  }
-               }
                      String filePath = "./contracts.txt";
-                     FileWriter fw = new FileWriter(filePath, true);
+                
+                     if(!theModel.findContractById(contractID)){
+                         FileWriter fw = new FileWriter(filePath, true);
                       fw.write("\n" + contractID.toUpperCase() + "," + OriginCityID + "," + DestinationID + "," + OrderItemID);
                       fw.flush();
                       fw.close();
-                     contractString[theModel.getContractCount()+1]= contractID; // adding the new contract name to the end of the array for checking 
-                      String emptyString = "";
+                      
+                      Contract newContract = new Contract(contractID, OriginCityID, DestinationID, OrderItemID);
+                      theModel.addContract(newContract);
+                       theView.updateContractViewPanel(theModel.getCurrentContractNum(), theModel.getContractCount());//why doesn't this update the counter 
+                       setUpDisplay();
+                     
+                     
+                     String emptyString = "";
                       theForm.setContractID(emptyString); 
                       theForm.setOriginID(emptyString);
-                      theForm.setDestinationID(emptyString);
+                      theForm.setDestinationID(emptyString); 
                       theForm.setOrderID(emptyString);
                       
-                              
-                  
+                     }
+                     else{
+                         JOptionPane.showMessageDialog(null, "Contract ID already exists, please enter a unique one.");
+                         throw new IOException("contract ID matches previously input Contract ID, try again ");   
+                     }                        
           }catch (Exception ex) {            
                System.out.println(ex);      
           } 
-          theView.updateContractViewPanel(theModel.getCurrentContractNum(), theModel.getContractCount());//why doesn't this update the counter 
-                      setUpDisplay();
-       } 
-       
+       }  
    }
    
    
