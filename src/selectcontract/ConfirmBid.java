@@ -8,6 +8,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JFrame;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.*;
 
 
 /*
@@ -215,9 +218,9 @@ public class ConfirmBid extends javax.swing.JDialog {
 
     private void JButtonSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JButtonSaveActionPerformed
        System.out.println(jSpinner.getValue());
-       String filePath = "./myContractBid.txt"; //going to have to change to myContractBid.json, and push and read json data, this all will have to change to read and write json data 
+       String filePath = "C:\\Users\\braon\\OneDrive\\Camosun\\Camosun Winter Term 2 2022\\ICS 125 - SENG Process\\SelectContract\\myContractBid.json"; //going to have to change to myContractBid.json, and push and read json data, this all will have to change to read and write json data 
         int bidAmount;
-        bidAmount = Integer.getInteger(jSpinner.getValue().toString(), 100); // why wont this work, always defaults to 100 no matter what 
+        bidAmount = Integer.getInteger(jSpinner.getValue().toString(), 100); 
         System.out.println(bidAmount);
         String name;
         name = jTextName.getText();
