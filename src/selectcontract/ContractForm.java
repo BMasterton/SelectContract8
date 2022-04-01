@@ -16,7 +16,7 @@ import javax.swing.JOptionPane;
  * @author C0501833
  */
 public class ContractForm extends javax.swing.JDialog {
-public final String filePath = "./contracts.txt";
+public final String filePath = "C:\\Users\\braon\\OneDrive\\Camosun\\Camosun Winter Term 2 2022\\ICS 125 - SENG Process\\SelectContract\\thecontracts.xml";
     /**
      * Creates new form ContractForm
      */

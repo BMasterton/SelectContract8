@@ -6,6 +6,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import java.io.File;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.ParserConfigurationException;
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.Node;
+import org.w3c.dom.Element;
+import org.xml.sax.SAXException;
 
 /**
  *
@@ -16,7 +25,7 @@ class ContractModel {
     private ArrayList<Contract> theContracts;
     private ArrayList<Contract> theContractsAll;
     private SortedSet<String> originCityList;
-    private String[] contractIDsString;
+ 
     private int contractCounter;
     String filename;
     public static final int BEGIN_OF_ARRAYLIST = 0;
@@ -27,39 +36,46 @@ class ContractModel {
     public static final int INDEX_OF_ORDER_CITY = 3;
     
    
-    ContractModel(String filename){
+    ContractModel(String filename) throws ParserConfigurationException, SAXException{
         
         try{
             this.contractCounter = 0;
             theContracts = new ArrayList<>();
             originCityList = new TreeSet<>();
-            
             this.filename = filename;
-            FileReader fileReader = new FileReader(filename);
-            BufferedReader bufferedReader = new BufferedReader(fileReader);
-                String line;
+            
+            File inputFile = new File(filename);
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            Document doc = dBuilder.parse(inputFile);
+            doc.getDocumentElement().normalize();
+            NodeList nList = doc.getElementsByTagName("contract");
+            
+            
                 
-                while((line = bufferedReader.readLine()) != null){
-                    String[] tokens = line.split(",", TOTAL_ATTRIBUTES);
+                for (int i = 0; i < nList.getLength(); i++){ 
+                    Node nNode = nList.item(i);
+                    if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+                        Element eElement = (Element) nNode;
+                        String contractID = eElement.getElementsByTagName("contractID").item(0).getTextContent();
+                        String originCity = eElement.getElementsByTagName("OriginID").item(0).getTextContent();
+                        String destCity = eElement.getElementsByTagName("destinationID").item(0).getTextContent();
+                        String orderItem = eElement.getElementsByTagName("orderID").item(0).getTextContent();
+                        originCityList.add(originCity); //part 8 add all the origincity names to the originCityList TreeList
+
+                        Contract dataContract = new Contract(contractID, originCity, destCity, orderItem);
+                        theContracts.add(dataContract);   
                     
-                    String contractID = tokens[INDEX_OF_CONTRACT_ID];
-                    String originCity = tokens[INDEX_OF_ORIGIN_CITY];
-                    String destCity = tokens[INDEX_OF_DEST_CITY];
-                    String orderItem = tokens[INDEX_OF_ORDER_CITY];
-                    originCityList.add(originCity); //part 8 add all the origincity names to the originCityList TreeList
-              
-                     
-                    Contract dataContract = new Contract(contractID, originCity, destCity, orderItem);
-                    theContracts.add(dataContract);  
+                    }
                 }
                 theContractsAll = new ArrayList<>(theContracts);
                 originCityList.add("All"); // adding "all" to the end of the originCityList TreeList
-                fileReader.close();          
+                          
         } catch(IOException ex){
             System.out.println(ex.getMessage());
         }         
     }
-    
+    //we may need to change some of the methods to get the info correctly from the xml shit
    public boolean findContractById(String id){
        for(int i = 0; i< theContracts.size(); i++){// maybe change to theContracts 
            if(theContracts.get(i).getContractID().equals(id)){
@@ -84,9 +100,7 @@ class ContractModel {
         }
     }
     
-    public String[] stringOfContractIDs(){
-        return this.contractIDsString;
-    }
+   
     
     public Contract getTheContract(){
         

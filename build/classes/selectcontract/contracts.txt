@@ -1,3 +1,0 @@
-4RDW,Victoria,Prince George,Flowers
-8EKD,Vancouver,Victoria,Vegetable
-3HQC,Seattle,Vancouver,Pharmaceutical

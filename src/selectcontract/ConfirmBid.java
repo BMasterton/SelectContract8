@@ -215,7 +215,7 @@ public class ConfirmBid extends javax.swing.JDialog {
 
     private void JButtonSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JButtonSaveActionPerformed
        System.out.println(jSpinner.getValue());
-       String filePath = "./myContractBid.txt";
+       String filePath = "./myContractBid.txt"; //going to have to change to myContractBid.json, and push and read json data, this all will have to change to read and write json data 
         int bidAmount;
         bidAmount = Integer.getInteger(jSpinner.getValue().toString(), 100); // why wont this work, always defaults to 100 no matter what 
         System.out.println(bidAmount);
