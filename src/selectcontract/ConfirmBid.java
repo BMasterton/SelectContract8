@@ -1,9 +1,13 @@
 package selectcontract;
 
 
+import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 
 import java.time.ZonedDateTime;
+import java.util.Iterator;
+import java.util.Map;
 import javax.swing.JOptionPane;
 import javax.swing.JFrame;
 import javax.swing.SpinnerModel;
@@ -217,7 +221,8 @@ public class ConfirmBid extends javax.swing.JDialog {
     }//GEN-LAST:event_JButtonCancelActionPerformed
 
     private void JButtonSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JButtonSaveActionPerformed
-       System.out.println(jSpinner.getValue());
+       
+        System.out.println(jSpinner.getValue());
        String filePath = "C:\\Users\\braon\\OneDrive\\Camosun\\Camosun Winter Term 2 2022\\ICS 125 - SENG Process\\SelectContract\\myContractBid.json"; //going to have to change to myContractBid.json, and push and read json data, this all will have to change to read and write json data 
         int bidAmount;
         bidAmount = Integer.getInteger(jSpinner.getValue().toString(), 100); 
@@ -230,10 +235,42 @@ public class ConfirmBid extends javax.swing.JDialog {
        try{
            
            if(!name.equals("") && name.matches("[a-zA-Z]+")){
-                FileWriter fw = new FileWriter(filePath, true);
-                fw.write( name + "," + jLabelContractID.getText() + "," + jSpinner.getValue().toString() + "," + currentDate + "\n" );
-                fw.flush();
-                fw.close();
+               //creation of the new bid json object, and its data
+               JSONObject bidDetails = new JSONObject();
+               bidDetails.put("name", name);
+               bidDetails.put("contractID", jLabelContractID.getText());
+               bidDetails.put("bid", jSpinner.getValue().toString());
+               bidDetails.put("date", currentDate);
+               
+            //creating a json parser object, we then make an object of the info we parsed from the json file. we make a new json object of all previous data, and add it to the array
+           
+               JSONParser parser = new JSONParser(); 
+                try{
+                   Object obj = parser.parse(new FileReader(filePath));
+                   JSONObject jsonObject = (JSONObject) obj;
+                   JSONArray list = (JSONArray) jsonObject.get("bids");
+                  list.add(bidDetails);// adding the new json object to the old array
+                  //writing the new list to the same file location, basically taking the old info, adding it to the new info and re writing eveything. 
+                  FileWriter file = new FileWriter(filePath);
+                   file.write(list.toJSONString());
+                   file.flush();
+              
+                  
+                    
+                }catch(Exception e){
+                   System.out.println(e) ;
+                }
+                
+                 
+                
+              
+               
+               
+               
+//                FileWriter fw = new FileWriter(filePath, true);
+//                fw.write( name + "," + jLabelContractID.getText() + "," + jSpinner.getValue().toString() + "," + currentDate + "\n" );
+//                fw.flush();
+//                fw.close();
                 JOptionPane.showMessageDialog(null, "Your name as " + name + " with a bid amount of $" + jSpinner.getValue().toString() + ".00 has been sucessfully saved.");
            }
            else {

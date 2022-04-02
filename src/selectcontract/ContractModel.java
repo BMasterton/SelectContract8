@@ -44,15 +44,16 @@ class ContractModel {
             originCityList = new TreeSet<>();
             this.filename = filename;
             
+            //creating all the xml parsing objects
             File inputFile = new File(filename);
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(inputFile);
             doc.getDocumentElement().normalize();
-            NodeList nList = doc.getElementsByTagName("contract");
+            NodeList nList = doc.getElementsByTagName("contract"); //here we are targetting the root node contract.
             
             
-                
+                //for all objects in the xml file, we will get an object and extract its info based on its elements
                 for (int i = 0; i < nList.getLength(); i++){ 
                     Node nNode = nList.item(i);
                     if (nNode.getNodeType() == Node.ELEMENT_NODE) {

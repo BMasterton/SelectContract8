@@ -218,33 +218,33 @@ class ContractController {
                     throw new IOException("contract ID matches previously input Contract ID, try again ");
 
                 } else {
-                    //i believe below is creating the xml 
+                    //here wer are creating all the objects to hold the info we are giving the xml file
                     DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
                     DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
                     Document doc = docBuilder.parse(filePath);
                     doc.getDocumentElement().normalize();
 
-                    Element root = doc.getDocumentElement();
-                    Element contract = doc.createElement("contract");
-                    root.appendChild(contract);
+                    Element root = doc.getDocumentElement();//getting the root information
+                    Element contract = doc.createElement("contract");//creating the structure 
+                    root.appendChild(contract);//appending created subelements to the parent element 
 
-                    Element contractId = doc.createElement("contractID");
-                    contractId.setTextContent(contractID);
-                    contract.appendChild(contractId);
+                    Element contractId = doc.createElement("contractID");//adding subelements 
+                    contractId.setTextContent(contractID);//setting the inner infomation for each element above
+                    contract.appendChild(contractId);//appending created subelements to the parent element 
 
-                    Element originID = doc.createElement("OriginID");
+                    Element originID = doc.createElement("OriginID");//adding subelements 
                     originID.setTextContent(OriginCityID);
-                    contract.appendChild(originID);
+                    contract.appendChild(originID);//appending created subelements to the parent element 
 
-                    Element destinationID = doc.createElement("destinationID");
+                    Element destinationID = doc.createElement("destinationID");//adding subelements 
                     destinationID.setTextContent(DestinationID);
                     contract.appendChild(destinationID);
 
-                    Element orderID = doc.createElement("orderID");
+                    Element orderID = doc.createElement("orderID");//adding subelements 
                     orderID.setTextContent(OrderItemID);
-                    contract.appendChild(orderID);
+                    contract.appendChild(orderID);//appending created subelements to the parent element 
 
-                    //this should be writing this to the xml file, but i dont think it will write inside the contracts root, and also its not writing anything 
+                    //here we are using the transformer class to add our xml into the old file, it will be rewritten
                     TransformerFactory transformerFactory = TransformerFactory.newInstance();
                     Transformer transformer = transformerFactory.newTransformer();
                     DOMSource source = new DOMSource(doc);
